@@ -15,7 +15,7 @@ const getTarefa = (req, res) => {
     if(tarefaSolicitada) {
         res.send(tarefaSolicitada);
     } else {
-        res.send("Produto não encontrado.");
+        res.status(404).send("Tarefa não encontrada.");
     }
 };
 
@@ -26,10 +26,30 @@ const escreverDados = (tarefas) => {
 };
 
 const postTarefas = (req, res) => {
-    const novaTarefa = req.body;
+    const {nomeResponsavel, descricao, status, dataCriacao } = req.body;
+
+    const obterNovoId = () => {
+        let maiorId = 0;
+        tarefas.forEach(tarefa => {
+            if (tarefa.id > maiorId) {
+                maiorId = tarefa.id;
+            }
+        });
+        return maiorId + 1;
+    }
+
+    //verificacao das info do body
+    const novaTarefa = {
+        id: tarefas.length ? obterNovoId() : 1,
+        nomeResponsavel,
+        dataCriacao: dataCriacao || new Date(),
+        descricao,
+        status: status || 'pendente'
+    }
+
     tarefas.push(novaTarefa);
     escreverDados(tarefas);
-    res.send(novaTarefa);
+    res.status(201).send(novaTarefa);
 };
 
 //PUT
@@ -39,10 +59,21 @@ const putTarefas = (req, res) => {
 
     const buscaTarefa = tarefas.findIndex(tarefa => tarefa.id == idParams);
     if(buscaTarefa !== -1) {
-        const tarefaAtualizada = req.body;
-        tarefas[buscaTarefa] = tarefaAtualizada;
+        
+        const {nomeResponsavel, descricao, status, dataCriacao} = req.body;
+        const atualTarefa = {
+            id: parseInt(idParams),
+            nomeResponsavel,
+            dataCriacao: dataCriacao || new Date(),
+            descricao,
+            status: status || 'pendente'
+        }
+
+        tarefas[buscaTarefa] = atualTarefa;
         escreverDados(tarefas);
-        res.send(tarefaAtualizada);
+        res.status(200).send(atualTarefa);
+    } else {
+        res.status(404).send("Tarefa não encontrada")
     }
 };
 
@@ -52,7 +83,7 @@ const deleteTarefas = (req, res) => {
     const idParams = req.params.id;
     const tarefasAtualizado = tarefas.filter(tarefa => tarefa.id != idParams);
     escreverDados(tarefasAtualizado);
-    res.send(tarefasAtualizado);
+    res.status(204).send();
 };
 
 

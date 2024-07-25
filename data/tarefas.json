@@ -1,1 +1,23 @@
-[{"id":1,"nome":"João Marques","descricao":"Criando o Backend da aplicação","status":"Finalizado","data":"16/07/2024, 19:05:48"}]
+[
+    {
+        "id": 1,
+        "nomeResponsavel": "Marcos Vinnicius",
+        "dataCriacao": "2024-07-25T21:10:29.341Z",
+        "descricao": "Criar o backend da app",
+        "status": "Finalizado"
+    },
+    {
+        "id": 2,
+        "nomeResponsavel": "Vitória Maria",
+        "dataCriacao": "2024-07-25T21:41:59.211Z",
+        "descricao": "Criar o frontend da app",
+        "status": "Pendente"
+    },
+    {
+        "id": 3,
+        "nomeResponsavel": "Daniela Nobre",
+        "dataCriacao": "2024-07-25T21:42:33.266Z",
+        "descricao": "Realizar testes na app",
+        "status": "Pendente"
+    }
+]
